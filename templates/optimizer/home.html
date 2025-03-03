@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Netflix Optimizer - Balance Your Time{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="text-center mb-5">
+            <h1 class="display-4">Optimize Your <span class="netflix-title">Netflix</span> Time</h1>
+            <p class="lead">Balance your study, sleep, and entertainment for maximum enjoyment without compromising your goals.</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg mt-3">Go to Dashboard</a>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn btn-primary btn-lg mt-3">Get Started</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg mt-3 ms-2">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h3 class="card-title">Optimize Time</h3>
+                <p class="card-text">Our algorithm uses the simplex method to find the perfect balance between study, sleep, and Netflix time.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h3 class="card-title">Personalized Recommendations</h3>
+                <p class="card-text">Get show recommendations based on your preferences and available time.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h3 class="card-title">Track Progress</h3>
+                <p class="card-text">Keep track of your watched shows and maintain a healthy balance in your daily routine.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Top Rated Shows</h2>
+    </div>
+    {% for show in shows %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ show.title }}</h5>
+                    <p class="card-text">
+                        <span class="badge bg-secondary">{{ show.get_category_display }}</span>
+                        <span class="badge bg-danger">{{ show.rating }}/10</span>
+                    </p>
+                    <p class="card-text">
+                        {{ show.total_episodes }} episodes ({{ show.episode_length }} min each)
+                    </p>
+                    <p class="card-text">
+                        Total watch time: {{ show.total_watch_time|floatformat:1 }} hours
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p>No shows available at the moment.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

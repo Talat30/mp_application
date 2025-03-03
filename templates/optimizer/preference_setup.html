@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load custom_filters %} {# Load the custom filter if needed #}
+
+{% block title %}Preference Setup - Netflix Optimizer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Set Your Show Preferences</h2>
+                <p class="text-center mb-4">Rate each category from 1 to 10 based on how much you enjoy it.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for category, name in categories.items %}
+                        <div class="mb-4">
+                            <label for="{{ category }}" class="form-label">{{ name }}</label>
+                            <div class="d-flex align-items-center">
+                                <input type="range" class="form-range flex-grow-1" min="1" max="10" 
+                                       id="{{ category }}" name="{{ category }}" 
+                                       value="{{ preferences|get_item:category }}">
+                                <span class="ms-2 preference-value" id="{{ category }}-value">
+                                    {{ preferences|get_item:category }}
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Save Preferences</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update displayed values when sliders change
+        document.querySelectorAll('input[type="range"]').forEach(function(slider) {
+            const output = document.getElementById(slider.id + '-value');
+            slider.addEventListener('input', function() {
+                output.textContent = this.value;
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Optimize Time - Netflix Optimizer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">Optimize Your Time</h2>
+                <p class="text-center mb-4">Set your constraints and let our algorithm find the optimal balance.</p>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">Optimize</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">How It Works</h4>
+                <p>Our optimization algorithm uses the simplex method to maximize your Netflix watching time while ensuring you get enough study and sleep time.</p>
+                <p>The simplex method is a mathematical optimization technique that finds the best solution given a set of constraints.</p>
+                <p>In this case, we're trying to maximize your enjoyment (Netflix time) while making sure you meet your minimum requirements for study and sleep.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Login - Netflix Optimizer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-lg">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">Login</h2>
+
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Invalid credentials. Please try again.</strong>
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}?next={% url 'dashboard' %}" autocomplete="off">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-grid gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>Don't have an account? <a href="{% url 'signup' %}" class="fw-bold">Sign up</a></p>
+                    <p><a href="{% url 'password_reset' %}" class="text-muted">Forgot password?</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
