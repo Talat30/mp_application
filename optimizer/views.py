@@ -228,6 +228,18 @@
 #         form = UserProfileForm(instance=profile)
     
 #     return render(request, 'optimizer/profile.html', {'form': form})
+# from django.shortcuts import get_object_or_404
+# from django.http import JsonResponse
+# from .models import Recommendation
+
+# @login_required
+# def mark_watched(request, recommendation_id):
+#     """Mark a recommended show as watched"""
+#     recommendation = get_object_or_404(Recommendation, id=recommendation_id, user=request.user)
+#     recommendation.watched = True
+#     recommendation.save()
+#     return JsonResponse({'success': True})
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm

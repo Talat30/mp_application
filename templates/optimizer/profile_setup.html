@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Netflix Optimizer{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p class="lead">Here's your optimized Netflix watching plan.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Study Time</h5>
+                <h2 class="card-text">{{ profile.daily_study_hours|floatformat:1 }} hours</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Sleep Time</h5>
+                <h2 class="card-text">{{ profile.daily_sleep_hours|floatformat:1 }} hours</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Netflix Time</h5>
+                <h2 class="card-text">{{ profile.daily_leisure_hours|floatformat:1 }} hours</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Your Recommendations</h2>
+            <a href="{% url 'optimize' %}" class="btn btn-primary">Optimize Time</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for recommendation in recommendations %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recommendation.show.title }}</h5>
+                    <p class="card-text">
+                        <span class="badge bg-secondary">{{ recommendation.show.get_category_display }}</span>
+                        <span class="badge bg-danger">{{ recommendation.show.rating }}/10</span>
+                    </p>
+                    <p class="card-text">
+                        {{ recommendation.show.total_episodes }} episodes ({{ recommendation.show.episode_length }} min each)
+                    </p>
+                    <p class="card-text">
+                        Total watch time: {{ recommendation.show.total_watch_time|floatformat:1 }} hours
+                    </p>
+                    <a href="{% url 'mark_watched' recommendation.id %}" class="btn btn-outline-light">Mark as Watched</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <p>No recommendations yet. Click "Optimize Time" to get personalized show recommendations.</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
